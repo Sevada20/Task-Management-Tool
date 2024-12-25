@@ -47,6 +47,7 @@ const DashboardPage = () => {
     Completed: tasks.filter((task) => task.status === "Completed"),
   };
 
+  //Fetch tasks [S.P]
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -81,6 +82,7 @@ const DashboardPage = () => {
     }
   }, [user]);
 
+  //Fetch users [S.P]
   useEffect(() => {
     const getUsersData = async () => {
       try {
@@ -99,6 +101,7 @@ const DashboardPage = () => {
     getUsersData();
   }, []);
 
+  //handle function for button "Edit Task" in TaskItem [S.P]
   const handleEditTask = (taskId) => {
     const task = tasks.find((task) => task._id === taskId);
     if (user.role === "User") {
@@ -109,6 +112,20 @@ const DashboardPage = () => {
     } else if (task && (user.role === "Manager" || user.role === "Admin")) {
       setOpenUpdateTaskModal(true);
       setSelectedTask(task);
+    }
+  };
+
+  //async function for button "Update Task" in TaskUpdateForm [S.P]
+  const handleUpdateTask = async (taskId, updatedTask) => {
+    try {
+      const updatedData = await updateTask(taskId, updatedTask);
+      setTasks((prevTasks) =>
+        prevTasks.map((task) => (task._id === taskId ? updatedData : task))
+      );
+      setOpenUpdateTaskModal(false);
+    } catch (error) {
+      console.error(error);
+      setTaskError(error.message || "Failed to update task");
     }
   };
 
@@ -130,6 +147,7 @@ const DashboardPage = () => {
     }
   };
 
+  //async function change only status of task [S.P]
   const handleUpdateTaskStatus = async (taskId, status) => {
     try {
       const updatedTask = await updateTaskStatus(taskId, status);
@@ -139,19 +157,6 @@ const DashboardPage = () => {
     } catch (error) {
       console.error(error);
       setTaskError(error.message || "Failed to update task status");
-    }
-  };
-
-  const handleUpdateTask = async (taskId, updatedTask) => {
-    try {
-      const updatedData = await updateTask(taskId, updatedTask);
-      setTasks((prevTasks) =>
-        prevTasks.map((task) => (task._id === taskId ? updatedData : task))
-      );
-      setOpenUpdateTaskModal(false);
-    } catch (error) {
-      console.error(error);
-      setTaskError(error.message || "Failed to update task");
     }
   };
 
@@ -171,10 +176,6 @@ const DashboardPage = () => {
         setTaskError(error.error || "Failed to delete task");
       }
     }
-  };
-
-  const handleCloseErrorModal = () => {
-    setOpenErrorModal(false);
   };
 
   const handleShowCreateTaskModal = () => {
@@ -205,6 +206,7 @@ const DashboardPage = () => {
                     onClick={handleShowCreateTaskModal}
                     startIcon={<AddIcon />}
                     className={classes.createTaskButton}
+                    style={{ backgroundColor: "#1c98b0" }}
                   >
                     Create New Task
                   </Button>
@@ -263,7 +265,7 @@ const DashboardPage = () => {
       <ErrorModal
         message={taskError}
         open={openErrorModal}
-        onClose={handleCloseErrorModal}
+        onClose={() => setOpenErrorModal(false)}
       />
     </>
   );

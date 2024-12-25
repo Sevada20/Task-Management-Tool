@@ -52,6 +52,7 @@ const TaskItem = ({
             variant="caption"
             sx={{ display: "block", marginBottom: "0.5rem" }}
           >
+            {/* formatDate is a function that formats the date to the format "DD.MM.YYYY" [S.P] */}
             Priority: {task.priority} | Due: {formatDate(task.dueDate)}
           </Typography>
           <Typography

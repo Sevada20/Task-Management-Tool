@@ -11,8 +11,10 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+          {/* Redirect to dashboard if user is authenticated [S.P] */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/:auth" element={<LoginPage />} />
+          {/* Private route [S.P] */}
           <Route
             path="/"
             element={

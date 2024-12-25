@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 const TaskUpdateForm = ({ task, handleUpdateTask, users }) => {
+  //Validation schema for the form [S.P]
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     dueDate: Yup.date()
@@ -25,6 +26,7 @@ const TaskUpdateForm = ({ task, handleUpdateTask, users }) => {
       title: task?.title || "",
       description: task?.description || "",
       priority: task?.priority || "Medium",
+      //Format the date to the format "DD.MM.YYYY" [S.P]
       dueDate: task?.dueDate
         ? new Date(task.dueDate).toISOString().split("T")[0]
         : "",

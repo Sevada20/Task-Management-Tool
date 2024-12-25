@@ -9,6 +9,7 @@ const LoginPage = () => {
   const params = useParams();
   const [isLogin, setIsLogin] = useState(params.auth === "login");
 
+  //Toggle between login and register forms [S.P]
   const toggleForm = () => {
     setIsLogin(!isLogin);
   };

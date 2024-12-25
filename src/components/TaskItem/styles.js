@@ -60,7 +60,7 @@ const useStyles = createUseStyles(
       },
     },
   },
-  { name: "TaskItem" }
+  { name: "task-item" }
 );
 
 export default useStyles;

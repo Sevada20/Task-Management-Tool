@@ -50,10 +50,12 @@ const AuthForm = ({ isLogin, toggleForm }) => {
   const handleAuthSubmit = async (formData) => {
     setApiError(null);
     try {
+      //Send request to login or register [S.P]
       const response = isLogin
         ? await loginUser(formData)
         : await registerUser(formData);
 
+      //Save token and user to local storage and state in AuthContext [S.P]
       login(response.token, response.user);
       navigate("/dashboard");
     } catch (error) {

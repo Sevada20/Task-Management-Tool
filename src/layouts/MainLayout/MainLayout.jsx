@@ -20,11 +20,11 @@ import styles from "./styles";
 const MainLayout = () => {
   const classes = styles();
   const navigate = useNavigate();
-  const { user, logout } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { user, logout } = useContext(AuthContext);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);

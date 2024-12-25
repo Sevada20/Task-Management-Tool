@@ -14,6 +14,7 @@ const UserItem = ({
 }) => {
   const classes = styles();
 
+  // function to change user role [S.P]
   const handleManageClick = (event, user) => {
     if (currentUser?.role !== "Admin") {
       setErrorModal(true);

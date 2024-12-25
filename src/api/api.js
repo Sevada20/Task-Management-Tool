@@ -47,7 +47,6 @@ export const loginUser = async (userData) => {
     const { token } = response.data;
     if (token) {
       localStorage.setItem("token", token);
-      // Устанавливаем токен в заголовки axios после успешного логина
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
     return response.data;

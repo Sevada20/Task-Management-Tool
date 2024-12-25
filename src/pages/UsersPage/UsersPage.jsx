@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { deleteUser, getUsers, updateUser } from "@/api/api";
 import { AuthContext } from "@/context/AuthContext";
-import { Card, Typography, Box, Grid } from "@mui/material";
+import { Card, Typography, Box, Grid, Button } from "@mui/material";
 import UserItem from "@/components/UserItem/UserItem";
 import ErrorModal from "@/components/ErrorModal/ErrorModal";
 
@@ -15,6 +16,7 @@ const UsersPage = () => {
 
   const { user: currentUser } = useContext(AuthContext);
 
+  //Fetch users [S.P]
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -76,6 +78,15 @@ const UsersPage = () => {
           Access Denied - Only administrators and managers can view the user
           list
         </Typography>
+        <Link component={Link} to="/dashboard">
+          <Button
+            style={{ marginTop: "2rem", backgroundColor: "#1c98b0" }}
+            variant="contained"
+            color="primary"
+          >
+            Go to Dashboard
+          </Button>
+        </Link>
       </Box>
     );
   }

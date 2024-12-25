@@ -27,6 +27,7 @@ const Dashboard = ({
 
   const canUseFilters = user?.role === "Admin" || user?.role === "Manager";
 
+  //Drag and drop functionality [S.P]
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
     if (!destination) return;
@@ -89,7 +90,18 @@ const Dashboard = ({
             const filteredTasks = filterTasks(tasks);
             return (
               <Grid item xs={12} md={4} key={status}>
-                <Box className={classes.column}>
+                <Box
+                  sx={{
+                    borderTop: `3px solid ${
+                      status === "To Do"
+                        ? "#9c27b0"
+                        : status === "In Progress"
+                        ? "#1976d2"
+                        : "#2e7d32"
+                    }`,
+                  }}
+                  className={classes.column}
+                >
                   <Typography variant="h6" className={classes.columnHeader}>
                     {status} ({filteredTasks.length})
                   </Typography>
