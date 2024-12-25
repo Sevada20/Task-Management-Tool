@@ -34,8 +34,14 @@ const TaskItem = ({
     if (user.role === "Admin") {
       setOpenDeleteDialog(true);
     } else {
-      handleDeleteTask(task._id);
+      handleDeleteTask(task._id, user.role);
     }
+  };
+
+  //handle function for button "Delete Task" in confirmation modal [S.P]
+  const handleConfirmDelete = () => {
+    handleDeleteTask(task._id, user.role);
+    setOpenDeleteDialog(false);
   };
 
   return (
@@ -144,11 +150,7 @@ const TaskItem = ({
             <Button onClick={() => setOpenDeleteDialog(false)} color="primary">
               Cancel
             </Button>
-            <Button
-              onClick={() => handleDeleteTask(task._id)}
-              color="error"
-              autoFocus
-            >
+            <Button onClick={handleConfirmDelete} color="error" autoFocus>
               Delete
             </Button>
           </DialogActions>

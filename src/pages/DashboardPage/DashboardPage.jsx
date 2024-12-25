@@ -160,21 +160,22 @@ const DashboardPage = () => {
     }
   };
 
-  const handleDeleteTask = async (taskId) => {
+  const handleDeleteTask = async (taskId, userRole) => {
+    if (userRole !== "Admin") {
+      setTaskError(
+        "You do not have permission to delete this task. Only administrators can perform this operation."
+      );
+      setOpenErrorModal(true);
+      return;
+    }
+
     try {
       await deleteTask(taskId);
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
     } catch (error) {
-      if (error.error === "Access denied") {
-        setTaskError(
-          "You do not have permission to delete this task. Only administrators can perform this operation."
-        );
-        console.error(error);
-        setOpenErrorModal(true);
-      } else {
-        console.error(error);
-        setTaskError(error.error || "Failed to delete task");
-      }
+      console.error(error);
+      setTaskError(error.error || "Failed to delete task");
+      setOpenErrorModal(true);
     }
   };
 
