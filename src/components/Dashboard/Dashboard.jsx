@@ -16,9 +16,9 @@ import styles from "./styles";
 
 const Dashboard = ({
   groupedTasks,
-  handleDeleteTask,
   handleUpdateTaskStatus,
   handleEditTask,
+  handleDeleteTask,
 }) => {
   const classes = styles();
   const [searchQuery, setSearchQuery] = useState("");
@@ -94,9 +94,9 @@ const Dashboard = ({
                     {status} ({filteredTasks.length})
                   </Typography>
                   <TaskList
+                    handleDeleteTask={handleDeleteTask}
                     tasks={filteredTasks}
                     status={status}
-                    onDelete={handleDeleteTask}
                     onStatusUpdate={handleUpdateTaskStatus}
                     handleEditTask={handleEditTask}
                   />

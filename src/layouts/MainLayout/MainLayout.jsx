@@ -1,3 +1,6 @@
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { AuthContext } from "@/context/AuthContext";
 import {
   AppBar,
   Box,
@@ -11,11 +14,8 @@ import {
   useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
-import { AuthContext } from "@/context/AuthContext";
-import styles from "./styles";
 import ErrorModal from "@/components/ErrorModal/ErrorModal";
+import styles from "./styles";
 
 const MainLayout = () => {
   const classes = styles();
@@ -63,14 +63,6 @@ const MainLayout = () => {
             variant="h6"
             component={Link}
             to="/dashboard"
-            sx={{
-              textDecoration: "none",
-              fontWeight: "bold",
-              marginRight: 2,
-              fontSize: { xs: "1.1rem", sm: "1.25rem" },
-              whiteSpace: { xs: "normal", sm: "nowrap" },
-              lineHeight: { xs: "1.2", sm: "normal" },
-            }}
           >
             Task Management System
           </Typography>

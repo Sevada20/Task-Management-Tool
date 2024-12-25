@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "@/context/AuthContext";
 import {
   createTask,
   getUsers,
@@ -8,7 +9,6 @@ import {
   updateTaskStatus,
   api,
 } from "@/api/api";
-import { AuthContext } from "@/context/AuthContext";
 import {
   Typography,
   Button,
@@ -18,6 +18,8 @@ import {
   Dialog,
   DialogContent,
   DialogActions,
+  DialogTitle,
+  DialogContentText,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import TaskForm from "@/components/TaskForm/TaskForm";
@@ -186,17 +188,6 @@ const DashboardPage = () => {
     }
   };
 
-  const handleShowDeleteTaskModal = (taskId) => {
-    if (user.role === "Admin") {
-      handleDeleteTask(taskId);
-    } else {
-      setTaskError(
-        "You do not have permission to delete this task. Only administrators can perform this operation."
-      );
-      setOpenErrorModal(true);
-    }
-  };
-
   return (
     <>
       <Box sx={{ padding: "2rem", marginTop: "2rem" }}>
@@ -213,12 +204,7 @@ const DashboardPage = () => {
                     color="primary"
                     onClick={handleShowCreateTaskModal}
                     startIcon={<AddIcon />}
-                    sx={{
-                      backgroundColor: "#1c98b0",
-                      "&:hover": {
-                        backgroundColor: "#137a91",
-                      },
-                    }}
+                    className={classes.createTaskButton}
                   >
                     Create New Task
                   </Button>

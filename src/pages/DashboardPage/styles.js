@@ -7,6 +7,12 @@ const useStyles = createUseStyles(
       backgroundColor: "#fff",
       padding: "1rem",
     },
+    createTaskButton: {
+      backgroundColor: "#1c98b0",
+      "&:hover": {
+        backgroundColor: "#137a91",
+      },
+    },
   }),
   { name: "DashboardPage" }
 );

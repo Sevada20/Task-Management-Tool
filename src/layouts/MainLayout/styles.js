@@ -6,7 +6,11 @@ const useStyles = createUseStyles(
       backgroundColor: "#1c98b0",
     },
     appBarTitle: {
-      textDecoration: "none",
+      fontWeight: "bold",
+      marginRight: 2,
+      fontSize: { xs: "1.1rem", sm: "1.25rem" },
+      whiteSpace: { xs: "normal", sm: "nowrap" },
+      lineHeight: { xs: "1.2", sm: "normal" },
       color: "inherit",
       "&:hover": {
         textDecoration: "none",

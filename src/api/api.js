@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/api";
 
-// Создаем инстанс axios с базовой конфигурацией
+//Create axios instance
 export const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -10,7 +10,7 @@ export const api = axios.create({
   },
 });
 
-// Интерцептор для добавления токена к каждому запросу
+//Add token to headers
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -24,6 +24,7 @@ api.interceptors.request.use(
   }
 );
 
+//Register user
 export const registerUser = async (userData) => {
   try {
     const response = await api.post("/auth/register", userData);
@@ -39,6 +40,7 @@ export const registerUser = async (userData) => {
   }
 };
 
+//Login user
 export const loginUser = async (userData) => {
   try {
     const response = await api.post("/auth/login", userData);
@@ -58,6 +60,7 @@ export const loginUser = async (userData) => {
   }
 };
 
+//Get tasks
 export const getTasks = async () => {
   try {
     const response = await api.get("/tasks");
@@ -67,6 +70,7 @@ export const getTasks = async () => {
   }
 };
 
+//Create task
 export const createTask = async (taskData) => {
   try {
     const response = await api.post("/tasks", taskData);
@@ -76,6 +80,7 @@ export const createTask = async (taskData) => {
   }
 };
 
+//Update task
 export const updateTask = async (taskId, updateData) => {
   try {
     const response = await api.put(`/tasks/${taskId}`, updateData);
@@ -85,6 +90,7 @@ export const updateTask = async (taskId, updateData) => {
   }
 };
 
+//Update task status
 export const updateTaskStatus = async (taskId, status) => {
   try {
     const response = await api.put(`/tasks/${taskId}/status`, {
@@ -96,6 +102,7 @@ export const updateTaskStatus = async (taskId, status) => {
   }
 };
 
+//Delete task
 export const deleteTask = async (taskId) => {
   try {
     const response = await api.delete(`/tasks/${taskId}`);
@@ -105,6 +112,7 @@ export const deleteTask = async (taskId) => {
   }
 };
 
+//Get users
 export const getUsers = async () => {
   try {
     const response = await api.get("/users");
@@ -114,6 +122,7 @@ export const getUsers = async () => {
   }
 };
 
+//Delete user
 export const deleteUser = async (userId) => {
   try {
     const response = await api.delete(`/users/${userId}`);
@@ -123,6 +132,7 @@ export const deleteUser = async (userId) => {
   }
 };
 
+//Update user
 export const updateUser = async (userId, updateData) => {
   try {
     const response = await api.put(`/users/${userId}`, updateData);

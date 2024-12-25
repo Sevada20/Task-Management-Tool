@@ -4,10 +4,8 @@ import { AuthContext } from "@/context/AuthContext";
 import { Card, Typography, Box, Grid } from "@mui/material";
 import UserItem from "@/components/UserItem/UserItem";
 import ErrorModal from "@/components/ErrorModal/ErrorModal";
-import styles from "./styles";
 
 const UsersPage = () => {
-  const classes = styles();
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -74,7 +72,7 @@ const UsersPage = () => {
   if (currentUser?.role === "User") {
     return (
       <Box sx={{ padding: "2rem", marginTop: "2rem" }}>
-        <Typography variant="h4" className={classes.title}>
+        <Typography variant="h4">
           Access Denied - Only administrators and managers can view the user
           list
         </Typography>
@@ -85,9 +83,7 @@ const UsersPage = () => {
   if (loading) {
     return (
       <Box sx={{ padding: "2rem", marginTop: "2rem" }}>
-        <Typography variant="h4" className={classes.title}>
-          Loading users...
-        </Typography>
+        <Typography variant="h4">Loading users...</Typography>
       </Box>
     );
   }

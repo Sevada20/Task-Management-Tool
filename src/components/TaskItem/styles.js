@@ -32,6 +32,12 @@ const useStyles = createUseStyles(
       gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
       justifyItems: "stretch",
     },
+    editButton: {
+      backgroundColor: "#1c98b0",
+      "&:hover": {
+        backgroundColor: "#137a91",
+      },
+    },
     deleteButton: {
       border: "1px solid #f44336",
       textTransform: "uppercase",

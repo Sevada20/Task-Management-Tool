@@ -1,14 +1,14 @@
 import { Box } from "@mui/material";
-import TaskItem from "../TaskItem/TaskItem";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import TaskItem from "../TaskItem/TaskItem";
 import styles from "./styles";
 
 const TaskList = ({
   tasks,
   status,
-  onDelete,
   onStatusUpdate,
   handleEditTask,
+  handleDeleteTask,
 }) => {
   const classes = styles();
 
@@ -32,8 +32,8 @@ const TaskList = ({
                   }}
                 >
                   <TaskItem
+                    handleDeleteTask={handleDeleteTask}
                     task={task}
-                    onDelete={onDelete}
                     onStatusUpdate={onStatusUpdate}
                     handleEditTask={handleEditTask}
                   />

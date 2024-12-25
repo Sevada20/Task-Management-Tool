@@ -1,3 +1,6 @@
+import { useState, useContext } from "react";
+import { AuthContext } from "@/context/AuthContext";
+import { formatDate } from "@/utils/dateUtils";
 import {
   Button,
   Card,
@@ -10,29 +13,29 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { useState } from "react";
-import { formatDate } from "@/utils/dateUtils";
 import styles from "./styles";
 
-const TaskItem = ({ task, onDelete, onStatusUpdate, handleEditTask }) => {
+const TaskItem = ({
+  task,
+  onStatusUpdate,
+  handleEditTask,
+  handleDeleteTask,
+}) => {
   const classes = styles();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-  const handleDeleteClick = (event) => {
-    setOpenDeleteDialog(true);
-  };
-
-  const handleConfirmDelete = () => {
-    onDelete(task._id);
-    setOpenDeleteDialog(false);
-  };
-
-  const handleCancelDelete = () => {
-    setOpenDeleteDialog(false);
-  };
+  const { user } = useContext(AuthContext);
 
   const handleEditTaskClick = () => {
     handleEditTask(task._id);
+  };
+
+  const handleDeleteClick = () => {
+    if (user.role === "Admin") {
+      setOpenDeleteDialog(true);
+    } else {
+      handleDeleteTask(task._id);
+    }
   };
 
   return (
@@ -108,12 +111,6 @@ const TaskItem = ({ task, onDelete, onStatusUpdate, handleEditTask }) => {
             className={classes.editButton}
             variant="contained"
             color="primary"
-            sx={{
-              backgroundColor: "#1c98b0",
-              "&:hover": {
-                backgroundColor: "#137a91",
-              },
-            }}
             onClick={handleEditTaskClick}
           >
             Edit Task
@@ -127,32 +124,35 @@ const TaskItem = ({ task, onDelete, onStatusUpdate, handleEditTask }) => {
             Delete Task
           </Button>
         </Box>
+        <Dialog
+          open={openDeleteDialog}
+          onClose={() => setOpenDeleteDialog(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Confirm Delete Task"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to delete this task? This action cannot be
+              undone.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenDeleteDialog(false)} color="primary">
+              Cancel
+            </Button>
+            <Button
+              onClick={() => handleDeleteTask(task._id)}
+              color="error"
+              autoFocus
+            >
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Card>
-
-      <Dialog
-        open={openDeleteDialog}
-        onClose={handleCancelDelete}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Confirm Delete Task"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this task? This action cannot be
-            undone.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancelDelete} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleConfirmDelete} color="error" autoFocus>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 };

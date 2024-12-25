@@ -18,6 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import * as yup from "yup";
+import styles from "./styles";
 
 const schema = yup.object().shape({
   username: yup
@@ -36,6 +37,7 @@ const AuthForm = ({ isLogin, toggleForm }) => {
   const [apiError, setApiError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useContext(AuthContext);
+  const classes = styles();
 
   const {
     register,
@@ -68,15 +70,7 @@ const AuthForm = ({ isLogin, toggleForm }) => {
     <Box
       component="form"
       onSubmit={handleSubmit(handleAuthSubmit)}
-      sx={{
-        textAlign: "center",
-        width: "100%",
-        margin: "0 auto",
-        padding: 4,
-        boxShadow: 4,
-        borderRadius: 3,
-        backgroundColor: "#fff",
-      }}
+      className={classes.authFormContainer}
     >
       <Typography variant="h4" gutterBottom>
         {isLogin ? "Login" : "Register"}
@@ -139,14 +133,7 @@ const AuthForm = ({ isLogin, toggleForm }) => {
         variant="contained"
         color="primary"
         fullWidth
-        sx={{
-          padding: "12px",
-          fontWeight: "bold",
-          backgroundColor: "#1c98b0",
-          "&:hover": {
-            backgroundColor: "#1c98b0",
-          },
-        }}
+        className={classes.authFormButton}
       >
         {isLogin ? "Login" : "Register"}
       </Button>
