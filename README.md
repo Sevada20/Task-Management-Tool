@@ -80,7 +80,7 @@ npm install
 4. Create a `.env` file in the server directory:
 
 ```env
-MONGO_URI=your_mongodb_connection_string
+MONGO_URI=mongodb://localhost:27017/task-management
 JWT_SECRET=your_jwt_secret
 PORT=5000
 ```
