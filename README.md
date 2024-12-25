@@ -20,7 +20,7 @@ A full-stack task management application with role-based access control and real
 
 ### Advanced Task Filtering (Admin & Manager Only)
 
-- Search tasks by title
+- Search tasks by title ,priority
 - Filter tasks by priority (High, Medium, Low)
 - Real-time filtering results
 - Task counter for each status column
@@ -93,7 +93,7 @@ cd ..
 npm install
 ```
 
-4. Create a `.env` file in the server directory:
+4. Create a `.env` file in the server directory(if not already created):
 
 ```env
 MONGO_URI=mongodb://localhost:27017/task-management
@@ -156,6 +156,9 @@ Users:
 
 - Username: Avet1988
 - Password: avet1988
+
+- Username: Karen777
+- Password: karen777
 ```
 
 ## Technologies Used
