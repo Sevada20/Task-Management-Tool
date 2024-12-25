@@ -1,27 +1,50 @@
 import { Box } from "@mui/material";
 import TaskItem from "../TaskItem/TaskItem";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 import styles from "./styles";
 
 const TaskList = ({
   tasks,
-  handleDeleteTask,
-  handleUpdateTaskStatus,
+  status,
+  onDelete,
+  onStatusUpdate,
   handleEditTask,
 }) => {
   const classes = styles();
 
   return (
-    <Box className={classes.taskListContainer}>
-      {tasks.map((task) => (
-        <TaskItem
-          handleEditTask={handleEditTask}
-          handleUpdateTaskStatus={handleUpdateTaskStatus}
-          handleDeleteTask={handleDeleteTask}
-          key={task._id}
-          task={task}
-        />
-      ))}
-    </Box>
+    <Droppable droppableId={status}>
+      {(provided) => (
+        <Box
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+          className={classes.taskList}
+        >
+          {tasks.map((task, index) => (
+            <Draggable key={task._id} draggableId={task._id} index={index}>
+              {(provided, snapshot) => (
+                <Box
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                  sx={{
+                    opacity: snapshot.isDragging ? 0.8 : 1,
+                  }}
+                >
+                  <TaskItem
+                    task={task}
+                    onDelete={onDelete}
+                    onStatusUpdate={onStatusUpdate}
+                    handleEditTask={handleEditTask}
+                  />
+                </Box>
+              )}
+            </Draggable>
+          ))}
+          {provided.placeholder}
+        </Box>
+      )}
+    </Droppable>
   );
 };
 

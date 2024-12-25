@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-// Проверяем наличие необходимых переменных окружения
 if (!process.env.JWT_SECRET) {
   console.error("JWT_SECRET is not defined in environment variables");
   process.exit(1);

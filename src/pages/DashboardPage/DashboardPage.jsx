@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import {
   createTask,
   getUsers,
@@ -7,8 +6,8 @@ import {
   deleteTask,
   updateTask,
   updateTaskStatus,
+  api,
 } from "@/api/api";
-import { api } from "@/api/api";
 import { AuthContext } from "@/context/AuthContext";
 import {
   Typography,
@@ -20,7 +19,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-
+import AddIcon from "@mui/icons-material/Add";
 import TaskForm from "@/components/TaskForm/TaskForm";
 import Dashboard from "@/components/Dashboard/Dashboard";
 import ErrorModal from "@/components/ErrorModal/ErrorModal";
@@ -204,18 +203,34 @@ const DashboardPage = () => {
         <Grid container spacing={4}>
           <Grid item xs={12}>
             <Card className={classes.dashboardCard}>
-              <Typography variant="h6" gutterBottom>
-                Dashboard Overview
-              </Typography>
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Typography variant="h6" gutterBottom>
+                  Dashboard Overview
+                </Typography>
+                <Box>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleShowCreateTaskModal}
+                    startIcon={<AddIcon />}
+                    sx={{
+                      backgroundColor: "#1c98b0",
+                      "&:hover": {
+                        backgroundColor: "#137a91",
+                      },
+                    }}
+                  >
+                    Create New Task
+                  </Button>
+                </Box>
+              </Box>
               <Box sx={{ marginTop: "1rem" }}>
                 <Dashboard
-                  handleEditTask={handleEditTask}
                   groupedTasks={groupedTasks}
-                  user={user}
-                  tasks={tasks}
-                  handleDeleteTask={handleShowDeleteTaskModal}
+                  handleDeleteTask={handleDeleteTask}
                   handleUpdateTaskStatus={handleUpdateTaskStatus}
-                  handleOpenCreateTaskModal={handleShowCreateTaskModal}
+                  handleEditTask={handleEditTask}
+                  user={user}
                 />
               </Box>
             </Card>

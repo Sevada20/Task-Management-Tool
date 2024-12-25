@@ -1,4 +1,16 @@
-import { Box, Typography, Grid, Button } from "@mui/material";
+import { DragDropContext } from "react-beautiful-dnd";
+import { useContext, useState } from "react";
+import { AuthContext } from "@/context/AuthContext";
+import {
+  Box,
+  Typography,
+  Grid,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import TaskList from "../TaskList/TaskList";
 import styles from "./styles";
 
@@ -6,70 +18,94 @@ const Dashboard = ({
   groupedTasks,
   handleDeleteTask,
   handleUpdateTaskStatus,
-  handleOpenCreateTaskModal,
   handleEditTask,
 }) => {
   const classes = styles();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [priorityFilter, setPriorityFilter] = useState("all");
+  const { user } = useContext(AuthContext);
+
+  const canUseFilters = user?.role === "Admin" || user?.role === "Manager";
+
+  const onDragEnd = (result) => {
+    const { destination, source, draggableId } = result;
+    if (!destination) return;
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+    handleUpdateTaskStatus(draggableId, destination.droppableId);
+  };
+
+  const filterTasks = (tasks) => {
+    return tasks.filter((task) => {
+      const matchesSearch = task.title
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const matchesPriority =
+        priorityFilter === "all" || task.priority === priorityFilter;
+      return matchesSearch && matchesPriority;
+    });
+  };
 
   return (
-    <Box sx={{ padding: 3 }}>
-      <Box className={classes.dashboardHeader}>
-        <Typography variant="h4" gutterBottom>
-          Task Dashboard
+    <Box className={classes.dashboard}>
+      {!canUseFilters && (
+        <Typography variant="body2" mb={1} color="textSecondary">
+          Only Admins and Managers can use filters.
         </Typography>
-        <Button
-          sx={{ bgcolor: "#1c98b0" }}
-          variant="contained"
-          color="primary"
-          onClick={handleOpenCreateTaskModal}
-        >
-          Create Task
-        </Button>
+      )}
+      <Box className={classes.filters}>
+        <TextField
+          disabled={!canUseFilters}
+          label="Search tasks"
+          variant="outlined"
+          size="small"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className={classes.searchField}
+        />
+        <FormControl size="small" className={classes.filterSelect}>
+          <InputLabel>Priority</InputLabel>
+          <Select
+            disabled={!canUseFilters}
+            value={priorityFilter}
+            label="Priority"
+            onChange={(e) => setPriorityFilter(e.target.value)}
+          >
+            <MenuItem value="all">All Priorities</MenuItem>
+            <MenuItem value="High">High</MenuItem>
+            <MenuItem value="Medium">Medium</MenuItem>
+            <MenuItem value="Low">Low</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={4}>
-          <Typography variant="h6" gutterBottom>
-            To Do
-          </Typography>
-          <Box sx={{ borderTop: "3px solid #9c27b0", borderRadius: "8px" }}>
-            <TaskList
-              handleEditTask={handleEditTask}
-              tasks={groupedTasks["To Do"]}
-              handleDeleteTask={handleDeleteTask}
-              handleUpdateTaskStatus={handleUpdateTaskStatus}
-            />
-          </Box>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Grid container spacing={2}>
+          {Object.entries(groupedTasks).map(([status, tasks]) => {
+            const filteredTasks = filterTasks(tasks);
+            return (
+              <Grid item xs={12} md={4} key={status}>
+                <Box className={classes.column}>
+                  <Typography variant="h6" className={classes.columnHeader}>
+                    {status} ({filteredTasks.length})
+                  </Typography>
+                  <TaskList
+                    tasks={filteredTasks}
+                    status={status}
+                    onDelete={handleDeleteTask}
+                    onStatusUpdate={handleUpdateTaskStatus}
+                    handleEditTask={handleEditTask}
+                  />
+                </Box>
+              </Grid>
+            );
+          })}
         </Grid>
-
-        <Grid item xs={12} sm={6} md={4}>
-          <Typography variant="h6" gutterBottom>
-            In Progress
-          </Typography>
-          <Box sx={{ borderTop: "3px solid #1976d2", borderRadius: "8px" }}>
-            <TaskList
-              handleEditTask={handleEditTask}
-              tasks={groupedTasks["In Progress"]}
-              handleDeleteTask={handleDeleteTask}
-              handleUpdateTaskStatus={handleUpdateTaskStatus}
-            />
-          </Box>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={4}>
-          <Typography variant="h6" gutterBottom>
-            Completed
-          </Typography>
-          <Box sx={{ borderTop: "3px solid #4caf50", borderRadius: "8px" }}>
-            <TaskList
-              handleEditTask={handleEditTask}
-              tasks={groupedTasks["Completed"]}
-              handleDeleteTask={handleDeleteTask}
-              handleUpdateTaskStatus={handleUpdateTaskStatus}
-            />
-          </Box>
-        </Grid>
-      </Grid>
+      </DragDropContext>
     </Box>
   );
 };

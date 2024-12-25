@@ -1,20 +1,26 @@
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles(
-  (theme) => ({
-    taskItemContainer: {
-      marginBottom: "1rem",
-      border: "1px solid #ddd",
-      borderRadius: "8px",
-      display: "flex",
-      flexDirection: "column",
-      transition: "all 0.3s ease-in-out",
-      "&:hover": {
-        boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
-        transform: "scale(1.02)",
+  {
+    taskCard: {
+      marginBottom: "8px",
+      cursor: "grab",
+      "&:active": {
+        cursor: "grabbing",
       },
-      padding: "1rem",
-      backgroundColor: "#fff",
+      "&:hover": {
+        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+      },
+    },
+    title: {
+      fontSize: "1.1rem",
+      fontWeight: "500",
+      marginBottom: "8px",
+      wordBreak: "break-word",
+    },
+    description: {
+      marginBottom: "0.5rem",
+      color: "rgba(0, 0, 0, 0.7)",
     },
     actionButtonContainer: {
       borderTop: "1px solid #ddd",
@@ -37,42 +43,7 @@ const useStyles = createUseStyles(
         borderColor: "#d32f2f",
       },
     },
-    description: {
-      whiteSpace: "pre-wrap",
-      wordWrap: "break-word",
-    },
-    readMore: {
-      color: "blue",
-      cursor: "pointer",
-    },
-    title: {
-      whiteSpace: "pre-wrap",
-      wordWrap: "break-word",
-    },
-    readMoreTitle: {
-      fontSize: "14px",
-      color: "blue",
-      fontWeight: "500",
-      cursor: "pointer",
-    },
-    modalContainer: {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      backgroundColor: "#fff",
-      maxWidth: "40vw",
-      boxShadow: 24,
-      padding: "1rem",
-      borderRadius: "8px",
-      wordWrap: "break-word",
-    },
-    closeButton: {
-      display: "block",
-      marginLeft: "auto",
-      backgroundColor: "#1C98B0",
-      color: "#fff",
-    },
+
     "@media (max-width: 600px)": {
       actionButtonContainer: {
         gridTemplateColumns: "1fr",
@@ -82,16 +53,8 @@ const useStyles = createUseStyles(
         width: "100%",
       },
     },
-    "@media (max-width: 1075px)": {
-      actionButtonContainer: {
-        gridTemplateColumns: "1fr",
-        gap: "1rem",
-      },
-    },
-  }),
-  {
-    name: "TaskItem",
-  }
+  },
+  { name: "TaskItem" }
 );
 
 export default useStyles;

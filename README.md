@@ -1,50 +1,66 @@
 # Task Management System
 
-A full-stack task management application with role-based access control.
+A full-stack task management application with role-based access control and real-time updates.
 
 ## Features
 
-### User Roles & Permissions
+### Authentication & Authorization
+
+- JWT-based authentication
+- Role-based access control (Admin, Manager, User)
+- Secure password hashing
+
+### Task Management
+
+- Create, update, and delete tasks
+- Assign tasks to users
+- Set task priority and due dates
+- Update task status (To Do, In Progress, Completed)
+- Drag-and-drop interface for status updates
+
+### Advanced Task Filtering (Admin & Manager Only)
+
+- Search tasks by title
+- Filter tasks by priority (High, Medium, Low)
+- Real-time filtering results
+- Task counter for each status column
+
+### Role-Based Permissions
 
 #### Admin
 
 - Full system access
-- Manage users:
-  - View all users
-  - Delete users
-  - Change user roles
-- Manage tasks:
-  - Create new tasks
-  - Edit any task
-  - Delete any task
-  - Assign tasks to users
-  - View all tasks
-  - Update task status
-- Access to user management page
+- Manage users and roles
+- Delete tasks
+- Use advanced filtering
+- Create and assign tasks
 
 #### Manager
 
-- Task management:
-  - Create new tasks
-  - Edit tasks
-  - Assign tasks to users
-  - View all tasks
-  - Update task status
-- User management:
-  - View list of users
-  - Cannot modify user roles
-  - Cannot delete users
-- Access to user management page
+- Create and assign tasks
+- Update task status
+- Use advanced filtering
+- View all tasks
 
 #### User
 
-- Limited access:
-  - View only assigned tasks
-  - Update status of assigned tasks
-  - Cannot create tasks
-  - Cannot assign tasks
-  - Cannot access user management
-  - Cannot view other users' tasks
+- View assigned tasks
+- Update task status
+- Basic task interaction
+
+### Responsive Design
+
+- Works on desktop and mobile devices
+- Adaptive layout
+- Touch-friendly interface
+
+## Technology Stack
+
+- Frontend: React, Material-UI
+- Backend: Node.js, Express
+- Database: MongoDB
+- Authentication: JWT
+- State Management: React Context
 
 ## Getting Started
 
@@ -148,6 +164,7 @@ Users:
 
 - React 18
 - Material-UI (MUI) for UI components
+- React Beautiful DnD for drag-and-drop functionality
 - React Router v6 for navigation
 - Axios for API requests
 - React Hook Form for form handling
@@ -206,3 +223,14 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+### Task Management Features
+
+- Kanban board style interface
+- Drag and drop tasks between status columns
+- Task priority levels (Low, Medium, High)
+- Task status tracking (To Do, In Progress, Complete)
+- Task assignment to specific users
+- Due date setting
+- Task description and details
+- Real-time task status updates

@@ -2,8 +2,9 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField, Button, MenuItem } from "@mui/material";
 import * as Yup from "yup";
+import { useEffect } from "react";
 
-const TaskForm = ({ onSubmit, users }) => {
+const TaskForm = ({ onSubmit, users, task, mode }) => {
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     dueDate: Yup.date()
@@ -29,6 +30,18 @@ const TaskForm = ({ onSubmit, users }) => {
       assignedTo: "",
     },
   });
+
+  useEffect(() => {
+    if (task && mode === "edit") {
+      reset({
+        title: task.title,
+        description: task.description,
+        priority: task.priority,
+        dueDate: task.dueDate.split("T")[0],
+        assignedTo: task.assignedTo?._id,
+      });
+    }
+  }, [task, mode, reset]);
 
   const onFormSubmit = (data) => {
     onSubmit(data);

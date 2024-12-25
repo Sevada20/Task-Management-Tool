@@ -65,7 +65,6 @@ const MainLayout = () => {
             to="/dashboard"
             sx={{
               textDecoration: "none",
-              color: "inherit",
               fontWeight: "bold",
               marginRight: 2,
               fontSize: { xs: "1.1rem", sm: "1.25rem" },
