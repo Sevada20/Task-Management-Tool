@@ -1,15 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { createTask } from "@/api/api";
-import { getUsers } from "@/api/api";
-import { getTasks } from "@/api/api";
-import { AuthContext } from "@/context/AuthContext";
-import { deleteTask } from "@/api/api";
-import { updateTask } from "@/api/api";
-import { updateTaskStatus } from "@/api/api";
 import {
-  AppBar,
-  Toolbar,
+  createTask,
+  getUsers,
+  getTasks,
+  deleteTask,
+  updateTask,
+  updateTaskStatus,
+} from "@/api/api";
+import { api } from "@/api/api";
+import { AuthContext } from "@/context/AuthContext";
+import {
   Typography,
   Button,
   Box,
@@ -32,13 +33,12 @@ const DashboardPage = () => {
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [taskError, setTaskError] = useState(null);
-  const [setUserError] = useState(null);
+  const [userError, setUserError] = useState(null);
   const [openErrorModal, setOpenErrorModal] = useState(false);
   const [openCreateTaskModal, setOpenCreateTaskModal] = useState(false);
   const [openUpdateTaskModal, setOpenUpdateTaskModal] = useState(false);
 
-  const { user } = useContext(AuthContext);
-  console.log(user, "user");
+  const { user, logout } = useContext(AuthContext);
 
   const groupedTasks = {
     "To Do": tasks.filter((task) => task.status === "To Do"),
@@ -49,18 +49,32 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("No authentication token found");
+        }
+
+        if (!api.defaults.headers.common["Authorization"]) {
+          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        }
+
         const data = await getTasks();
-        console.log(data, "data");
         if (user?.role === "User") {
           setTasks(data.filter((task) => task.assignedTo._id === user.id));
         } else {
           setTasks(data);
         }
       } catch (err) {
-        console.error(err);
+        console.error("Fetch tasks error:", err);
         setTaskError(err.message || "Failed to fetch tasks");
+        setOpenErrorModal(true);
+
+        if (err.message === "Invalid token") {
+          logout();
+        }
       }
     };
+
     if (user) {
       fetchTasks();
     }
@@ -69,11 +83,16 @@ const DashboardPage = () => {
   useEffect(() => {
     const getUsersData = async () => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("No authentication token found");
+        }
         const data = await getUsers();
         setUsers(data);
       } catch (error) {
         console.error(error);
         setUserError(error.message || "Failed to fetch users");
+        setOpenErrorModal(true);
       }
     };
     getUsersData();

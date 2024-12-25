@@ -1,7 +1,7 @@
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles(
-  () => ({
+  {
     taskListContainer: {
       maxHeight: "447px",
       overflowY: "auto",
@@ -9,7 +9,7 @@ const useStyles = createUseStyles(
       borderRadius: "8px",
       padding: "1rem",
     },
-  }),
+  },
   { name: "TaskList" }
 );
 

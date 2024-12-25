@@ -1,16 +1,24 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuth, setIsAuth] = useState(() => localStorage.getItem("token"));
-  const [user, setUser] = useState(null);
+  const [isAuth, setIsAuth] = useState(() => !!localStorage.getItem("token"));
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
   const login = (token, userData) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData);
-    setIsAuth(true);
+    try {
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(userData));
+      setUser(userData);
+      setIsAuth(true);
+    } catch (error) {
+      console.error("Error during login:", error);
+      throw error;
+    }
   };
 
   const logout = () => {
@@ -19,14 +27,6 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setIsAuth(false);
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsAuth(true);
-      setUser(JSON.parse(localStorage.getItem("user")));
-    }
-  }, []);
 
   return (
     <AuthContext.Provider value={{ isAuth, user, login, logout }}>

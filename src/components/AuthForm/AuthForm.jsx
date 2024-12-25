@@ -82,7 +82,11 @@ const AuthForm = ({ isLogin, toggleForm }) => {
         {isLogin ? "Login" : "Register"}
       </Typography>
 
-      {apiError && <Typography color="error">{apiError}</Typography>}
+      {apiError && (
+        <Typography color="error">
+          {typeof apiError === "object" ? apiError.message : apiError}
+        </Typography>
+      )}
 
       <TextField
         {...register("username")}

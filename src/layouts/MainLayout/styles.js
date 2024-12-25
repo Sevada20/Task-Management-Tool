@@ -1,33 +1,35 @@
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles(
-  (theme) => ({
+  {
     appBar: {
-      backgroundColor: "#1C98B0",
-      boxShadow: 3,
-      borderBottom: "1px solid #E0E0E0",
-      transition: "background-color 0.3s ease",
-    },
-    logoutButton: {
-      fontWeight: "bold",
-      fontSize: "1rem",
-      letterSpacing: "1px",
-      borderRadius: "20px",
-      padding: "6px 12px",
-      textTransform: "none",
-      transition: "background-color 0.3s ease",
-      "&:hover": {
-        backgroundColor: "#0C8A99",
-      },
+      backgroundColor: "#1c98b0",
     },
     appBarTitle: {
-      fontWeight: "bold",
-      fontSize: "1.25rem",
-      color: "#fff",
-      letterSpacing: "1px",
-      textTransform: "uppercase",
+      textDecoration: "none",
+      color: "inherit",
+      "&:hover": {
+        textDecoration: "none",
+      },
+      "@media (max-width: 600px)": {
+        whiteSpace: "normal",
+        fontSize: "1.1rem",
+        lineHeight: "1.2",
+      },
+      "@media (min-width: 601px)": {
+        whiteSpace: "nowrap",
+      },
     },
-  }),
+    logoutButton: {
+      marginLeft: "1rem",
+      "&:hover": {
+        backgroundColor: "rgba(255, 255, 255, 0.1)",
+      },
+    },
+    menuButton: {
+      marginRight: "1rem",
+    },
+  },
   { name: "MainLayout" }
 );
 

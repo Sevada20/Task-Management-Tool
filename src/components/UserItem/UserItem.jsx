@@ -1,6 +1,5 @@
 import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import styles from "./styles";
-import { useState } from "react";
 
 const UserItem = ({
   user,
