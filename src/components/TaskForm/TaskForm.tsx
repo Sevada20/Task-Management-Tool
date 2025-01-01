@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField, Button, MenuItem } from "@mui/material";
-import * as Yup from "yup";
 import { ITask, ITaskFormData, IUser } from "@/types";
+import * as Yup from "yup";
 
 interface ITaskFormProps {
   onSubmit: (taskData: ITaskFormData) => void;

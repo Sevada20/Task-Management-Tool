@@ -1,16 +1,20 @@
 import { Button, TextField, MenuItem } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 import { ITask, ITaskFormData, IUser } from "@/types";
+import * as Yup from "yup";
 
-interface ITaskUpdateForm {
+interface ITaskUpdateFormProps {
   task: ITask | null;
-  handleUpdateTask: (taskId: string, data: ITask) => void;
+  handleUpdateTask: (taskId: string, data: ITaskFormData) => void;
   users: IUser[];
 }
 
-const TaskUpdateForm = ({ task, handleUpdateTask, users }: ITaskUpdateForm) => {
+const TaskUpdateForm = ({
+  task,
+  handleUpdateTask,
+  users,
+}: ITaskUpdateFormProps) => {
   //Validation schema for the form [S.P]
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
@@ -41,7 +45,7 @@ const TaskUpdateForm = ({ task, handleUpdateTask, users }: ITaskUpdateForm) => {
     },
   });
 
-  const onFormSubmit = (data: any) => {
+  const onFormSubmit = (data: ITaskFormData) => {
     if (task) {
       handleUpdateTask(task._id, data);
       reset();

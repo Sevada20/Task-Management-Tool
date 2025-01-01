@@ -117,7 +117,10 @@ const DashboardPage = () => {
   };
 
   //async function for button "Update Task" in TaskUpdateForm [S.P]
-  const handleUpdateTask = async (taskId: string, updatedTask: ITask) => {
+  const handleUpdateTask = async (
+    taskId: string,
+    updatedTask: ITaskFormData
+  ) => {
     try {
       const updatedData = await updateTask(taskId, updatedTask);
       setTasks((prevTasks: ITask[]) =>

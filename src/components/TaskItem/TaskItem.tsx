@@ -13,8 +13,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import styles from "./styles";
 import { ITask } from "@/types";
+import styles from "./styles";
 
 interface ITaskItemProps {
   task: ITask;

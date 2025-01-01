@@ -95,7 +95,7 @@ export const createTask = async (taskData: ITaskFormData): Promise<ITask> => {
 //Update task
 export const updateTask = async (
   taskId: string,
-  updateData: ITask
+  updateData: ITaskFormData
 ): Promise<ITask> => {
   try {
     const response = await api.put(`/tasks/${taskId}`, updateData);

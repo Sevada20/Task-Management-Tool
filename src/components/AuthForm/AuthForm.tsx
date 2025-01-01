@@ -45,11 +45,11 @@ const schema = yup.object().shape({
 });
 
 const AuthForm = ({ isLogin, toggleForm }: IAuthFormProps) => {
+  const classes = styles();
   const navigate = useNavigate();
   const [apiError, setApiError] = useState<IApiError | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { login } = useContext(AuthContext);
-  const classes = styles();
 
   const {
     register,
