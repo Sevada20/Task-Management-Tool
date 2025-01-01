@@ -1,4 +1,12 @@
-import axios from "axios";
+import {
+  IFormData,
+  ITask,
+  IUser,
+  IAuthResponse,
+  IApiError,
+  ITaskFormData,
+} from "@/types";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -25,7 +33,9 @@ api.interceptors.request.use(
 );
 
 //Register user
-export const registerUser = async (userData) => {
+export const registerUser = async (
+  userData: IFormData
+): Promise<IAuthResponse> => {
   try {
     const response = await api.post("/auth/register", userData);
     const { token } = response.data;
@@ -35,13 +45,15 @@ export const registerUser = async (userData) => {
       delete api.defaults.headers.common["Authorization"];
     }
     return response.data;
-  } catch (error) {
-    throw error.response.data.error || "Something went wrong";
+  } catch (error: any) {
+    throw error.response?.data?.error || "Something went wrong";
   }
 };
 
 //Login user
-export const loginUser = async (userData) => {
+export const loginUser = async (
+  userData: IFormData
+): Promise<IAuthResponse> => {
   try {
     const response = await api.post("/auth/login", userData);
     const { token } = response.data;
@@ -50,7 +62,7 @@ export const loginUser = async (userData) => {
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     if (error.response) {
       throw error.response.data.error || "Authentication failed";
     } else {
@@ -60,83 +72,99 @@ export const loginUser = async (userData) => {
 };
 
 //Get tasks
-export const getTasks = async () => {
+export const getTasks = async (): Promise<ITask[]> => {
   try {
     const response = await api.get("/tasks");
     return response.data;
   } catch (error) {
-    throw error.response?.data || error;
+    const axiosError = error as AxiosError<IApiError>;
+    throw axiosError.response?.data || error;
   }
 };
 
 //Create task
-export const createTask = async (taskData) => {
+export const createTask = async (taskData: ITaskFormData): Promise<ITask> => {
   try {
     const response = await api.post("/tasks", taskData);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
 
 //Update task
-export const updateTask = async (taskId, updateData) => {
+export const updateTask = async (
+  taskId: string,
+  updateData: ITask
+): Promise<ITask> => {
   try {
     const response = await api.put(`/tasks/${taskId}`, updateData);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
 
 //Update task status
-export const updateTaskStatus = async (taskId, status) => {
+export const updateTaskStatus = async (
+  taskId: string,
+  status: string
+): Promise<ITask> => {
   try {
-    const response = await api.put(`/tasks/${taskId}/status`, {
-      status,
-    });
+    const response: AxiosResponse<ITask> = await api.put(
+      `/tasks/${taskId}/status`,
+      {
+        status,
+      }
+    );
     return response.data;
   } catch (error) {
-    throw error.response.data;
+    const axiosError = error as AxiosError<IApiError>;
+    throw axiosError.response?.data;
   }
 };
 
 //Delete task
-export const deleteTask = async (taskId) => {
+export const deleteTask = async (
+  taskId: string
+): Promise<{ message: string }> => {
   try {
     const response = await api.delete(`/tasks/${taskId}`);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
 
 //Get users
-export const getUsers = async () => {
+export const getUsers = async (): Promise<IUser[]> => {
   try {
     const response = await api.get("/users");
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response?.data || error;
   }
 };
 
 //Delete user
-export const deleteUser = async (userId) => {
+export const deleteUser = async (userId: string): Promise<IUser> => {
   try {
     const response = await api.delete(`/users/${userId}`);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };
 
 //Update user
-export const updateUser = async (userId, updateData) => {
+export const updateUser = async (
+  userId: string,
+  updateData: { role: string; username: string }
+): Promise<IUser> => {
   try {
     const response = await api.put(`/users/${userId}`, updateData);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     throw error.response.data;
   }
 };

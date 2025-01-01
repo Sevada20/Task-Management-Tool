@@ -1,7 +1,6 @@
 import { createUseStyles } from "react-jss";
-
-const styles = createUseStyles(
-  (theme) => ({
+const useStyles = createUseStyles(
+  {
     authFormContainer: {
       textAlign: "center",
       width: "100%",
@@ -19,8 +18,8 @@ const styles = createUseStyles(
         backgroundColor: "#1c98b0",
       },
     },
-  }),
+  },
   { name: "auth-form" }
 );
 
-export default styles;
+export default useStyles;

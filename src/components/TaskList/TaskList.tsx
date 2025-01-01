@@ -1,7 +1,16 @@
 import { Box } from "@mui/material";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import TaskItem from "../TaskItem/TaskItem";
 import styles from "./styles";
+import TaskItem from "../TaskItem/TaskItem";
+import { ITask } from "@/types";
+
+interface ITaskListProps {
+  tasks: ITask[];
+  status: string;
+  onStatusUpdate: (taskId: string, status: string) => void;
+  handleEditTask: (taskId: string) => void;
+  handleDeleteTask: (taskId: string, userRole: string) => void;
+}
 
 const TaskList = ({
   tasks,
@@ -9,7 +18,7 @@ const TaskList = ({
   onStatusUpdate,
   handleEditTask,
   handleDeleteTask,
-}) => {
+}: ITaskListProps) => {
   const classes = styles();
 
   return (

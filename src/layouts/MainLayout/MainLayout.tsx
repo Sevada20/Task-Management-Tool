@@ -20,13 +20,13 @@ import styles from "./styles";
 const MainLayout = () => {
   const classes = styles();
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { user, logout } = useContext(AuthContext);
 
-  const handleMenu = (event) => {
+  const handleMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 

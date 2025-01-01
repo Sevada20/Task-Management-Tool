@@ -6,7 +6,13 @@ import {
   Button,
 } from "@mui/material";
 
-const ErrorModal = ({ message, onClose, open }) => {
+interface IErrorModalProps {
+  message: string | null;
+  onClose: () => void;
+  open: boolean;
+}
+
+const ErrorModal = ({ message, onClose, open }: IErrorModalProps) => {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Error</DialogTitle>

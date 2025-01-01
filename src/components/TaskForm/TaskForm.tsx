@@ -1,16 +1,26 @@
-import { Button, TextField, MenuItem } from "@mui/material";
+import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { TextField, Button, MenuItem } from "@mui/material";
 import * as Yup from "yup";
+import { ITask, ITaskFormData, IUser } from "@/types";
 
-const TaskUpdateForm = ({ task, handleUpdateTask, users }) => {
-  //Validation schema for the form [S.P]
+interface ITaskFormProps {
+  onSubmit: (taskData: ITaskFormData) => void;
+  users: IUser[];
+  task?: ITask | null;
+  mode?: string;
+}
+
+const TaskForm = ({ onSubmit, users, task, mode }: ITaskFormProps) => {
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
-    dueDate: Yup.date()
+    dueDate: Yup.string()
       .typeError("Please provide a valid date")
       .required("Due date is required"),
-    assignedTo: Yup.string(),
+    assignedTo: Yup.string().required("Task must be assigned to a user"),
+    description: Yup.string().required("Description is required"),
+    priority: Yup.string().required("Priority is required"),
   });
 
   const usersFiltered = users?.filter((user) => user.role === "User");
@@ -18,30 +28,39 @@ const TaskUpdateForm = ({ task, handleUpdateTask, users }) => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
     reset,
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      title: task?.title || "",
-      description: task?.description || "",
-      priority: task?.priority || "Medium",
-      //Format the date to the format "DD.MM.YYYY" [S.P]
-      dueDate: task?.dueDate
-        ? new Date(task.dueDate).toISOString().split("T")[0]
-        : "",
-      assignedTo: task?.assignedTo?._id || "",
+      title: "",
+      description: "",
+      priority: "Medium",
+      dueDate: "",
+      assignedTo: "",
     },
   });
 
-  const onFormSubmit = (data) => {
-    handleUpdateTask(task._id, data);
+  useEffect(() => {
+    if (task && mode === "edit") {
+      reset({
+        title: task.title,
+        description: task.description,
+        priority: task.priority,
+        dueDate: task.dueDate.split("T")[0],
+        assignedTo: task.assignedTo?._id,
+      });
+    }
+  }, [task, mode, reset]);
+
+  const onFormSubmit = (data: ITaskFormData) => {
+    onSubmit(data);
     reset();
   };
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)}>
-      <h3>Update Task</h3>
+      <h2 style={{ marginBottom: 0 }}>Create Task</h2>
       <Controller
         name="title"
         control={control}
@@ -136,10 +155,10 @@ const TaskUpdateForm = ({ task, handleUpdateTask, users }) => {
         variant="contained"
         color="primary"
       >
-        Update Task
+        Create Task
       </Button>
     </form>
   );
 };
 
-export default TaskUpdateForm;
+export default TaskForm;

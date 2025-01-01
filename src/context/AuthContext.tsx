@@ -1,15 +1,25 @@
+import { IAuthContextType, IUser } from "@/types";
 import { createContext, useState } from "react";
 
-export const AuthContext = createContext();
+interface IAuthProviderProps {
+  children: React.ReactNode;
+}
 
-export const AuthProvider = ({ children }) => {
+export const AuthContext = createContext<IAuthContextType>({
+  user: null,
+  login: (token: string, userData: IUser) => {},
+  logout: () => {},
+  isAuth: false,
+});
+
+export const AuthProvider = ({ children }: IAuthProviderProps) => {
   const [isAuth, setIsAuth] = useState(() => !!localStorage.getItem("token"));
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
   });
 
-  const login = (token, userData) => {
+  const login = (token: string, userData: IUser): void => {
     try {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(userData));
@@ -21,7 +31,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = (): void => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);

@@ -14,15 +14,23 @@ import {
   DialogTitle,
 } from "@mui/material";
 import styles from "./styles";
+import { ITask } from "@/types";
+
+interface ITaskItemProps {
+  task: ITask;
+  onStatusUpdate: (taskId: string, newStatus: string) => void;
+  handleEditTask: (taskId: string) => void;
+  handleDeleteTask: (taskId: string, userRole: string) => void;
+}
 
 const TaskItem = ({
   task,
   onStatusUpdate,
   handleEditTask,
   handleDeleteTask,
-}) => {
+}: ITaskItemProps) => {
   const classes = styles();
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
 
   const { user } = useContext(AuthContext);
 
@@ -31,6 +39,7 @@ const TaskItem = ({
   };
 
   const handleDeleteClick = () => {
+    if (!user) return;
     if (user.role === "Admin") {
       setOpenDeleteDialog(true);
     } else {
@@ -40,6 +49,7 @@ const TaskItem = ({
 
   //handle function for button "Delete Task" in confirmation modal [S.P]
   const handleConfirmDelete = () => {
+    if (!user) return;
     handleDeleteTask(task._id, user.role);
     setOpenDeleteDialog(false);
   };

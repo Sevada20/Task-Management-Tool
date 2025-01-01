@@ -3,14 +3,15 @@ import { Link } from "react-router-dom";
 import { deleteUser, getUsers, updateUser } from "@/api/api";
 import { AuthContext } from "@/context/AuthContext";
 import { Card, Typography, Box, Grid, Button } from "@mui/material";
+import { IUser } from "@/types";
 import UserItem from "@/components/UserItem/UserItem";
 import ErrorModal from "@/components/ErrorModal/ErrorModal";
 
 const UsersPage = () => {
-  const [users, setUsers] = useState([]);
-  const [error, setError] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorModal, setErrorModal] = useState(false);
 
@@ -33,7 +34,10 @@ const UsersPage = () => {
     fetchUsers();
   }, []);
 
-  const handleMenuClick = (event, user) => {
+  const handleMenuClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    user: IUser
+  ) => {
     setAnchorEl(event.currentTarget);
     setSelectedUser(user);
   };
@@ -44,29 +48,29 @@ const UsersPage = () => {
 
   const handleDeleteUser = async () => {
     try {
-      await deleteUser(selectedUser._id);
+      await deleteUser(selectedUser?._id || "");
       setUsers((prevUsers) =>
-        prevUsers.filter((user) => user._id !== selectedUser._id)
+        prevUsers.filter((user) => user._id !== selectedUser?._id)
       );
-    } catch (error) {
-      setError("Failed to delete user", error);
+    } catch (error: any) {
+      setError(error.message);
     }
     handleCloseMenu();
   };
 
-  const handleRoleChange = async (role) => {
+  const handleRoleChange = async (role: "Admin" | "Manager" | "User") => {
     try {
-      await updateUser(selectedUser._id, {
+      await updateUser(selectedUser?._id || "", {
         role,
-        username: selectedUser.username,
+        username: selectedUser?.username || "",
       });
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user._id === selectedUser._id ? { ...user, role } : user
+          user._id === selectedUser?._id ? { ...user, role } : user
         )
       );
-    } catch (error) {
-      setError("Failed to update user role", error);
+    } catch (error: any) {
+      setError(error.message);
     }
     handleCloseMenu();
   };
@@ -78,7 +82,7 @@ const UsersPage = () => {
           Access Denied - Only administrators and managers can view the user
           list
         </Typography>
-        <Link component={Link} to="/dashboard">
+        <Link to="/dashboard">
           <Button
             style={{ marginTop: "2rem", backgroundColor: "#1c98b0" }}
             variant="contained"

@@ -56,11 +56,36 @@ A full-stack task management application with role-based access control and real
 
 ## Technology Stack
 
-- Frontend: React, Material-UI
-- Backend: Node.js, Express
-- Database: MongoDB
-- Authentication: JWT
-- State Management: React Context
+### Frontend
+
+- React 18
+- TypeScript
+- Material-UI (MUI) for UI components
+- React Beautiful DnD for drag-and-drop functionality
+- React Router v6 for navigation
+- Axios for API requests
+- React Hook Form for form handling
+- JSS for styling
+- Context API for state management
+- Vite as build tool
+
+### Type Safety
+
+- TypeScript for static type checking
+- Strict type checking enabled
+- Interface-based type definitions
+- Type-safe API calls
+- Typed React components and hooks
+- Type-safe form handling with React Hook Form
+
+### Backend
+
+- Node.js
+- Express.js framework
+- MongoDB with Mongoose
+- JWT for authentication
+- bcrypt for password hashing
+- CORS for cross-origin resource sharing
 
 ## Getting Started
 
@@ -166,6 +191,7 @@ Users:
 ### Frontend
 
 - React 18
+- TypeScript
 - Material-UI (MUI) for UI components
 - React Beautiful DnD for drag-and-drop functionality
 - React Router v6 for navigation

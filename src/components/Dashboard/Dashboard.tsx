@@ -11,24 +11,33 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { ITask, IUser } from "@/types";
 import TaskList from "../TaskList/TaskList";
 import styles from "./styles";
+
+interface IDashboardProps {
+  groupedTasks: Record<string, ITask[]>;
+  handleUpdateTaskStatus: (taskId: string, newStatus: string) => void;
+  handleEditTask: (taskId: string) => void;
+  handleDeleteTask: (taskId: string, userRole: string) => void;
+  user: IUser | null;
+}
 
 const Dashboard = ({
   groupedTasks,
   handleUpdateTaskStatus,
   handleEditTask,
   handleDeleteTask,
-}) => {
+}: IDashboardProps) => {
   const classes = styles();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [priorityFilter, setPriorityFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [priorityFilter, setPriorityFilter] = useState<string>("all");
   const { user } = useContext(AuthContext);
 
   const canUseFilters = user?.role === "Admin" || user?.role === "Manager";
 
   //Drag and drop functionality [S.P]
-  const onDragEnd = (result) => {
+  const onDragEnd = (result: any) => {
     const { destination, source, draggableId } = result;
     if (!destination) return;
     if (
@@ -40,8 +49,8 @@ const Dashboard = ({
     handleUpdateTaskStatus(draggableId, destination.droppableId);
   };
 
-  const filterTasks = (tasks) => {
-    return tasks.filter((task) => {
+  const filterTasks = (tasks: ITask[]) => {
+    return tasks.filter((task: ITask) => {
       const matchesSearch = task.title
         .toLowerCase()
         .includes(searchQuery.toLowerCase());

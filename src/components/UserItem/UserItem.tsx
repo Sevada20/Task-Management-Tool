@@ -1,5 +1,21 @@
 import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import styles from "./styles";
+import { IUser } from "@/types";
+
+interface IUserItemProps {
+  user: IUser;
+  anchorEl: null | HTMLElement;
+  handleMenuClick: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    user: IUser
+  ) => void;
+  handleCloseMenu: () => void;
+  handleRoleChange: (role: "Manager" | "User" | "Admin") => void;
+  handleDeleteUser: () => void;
+  currentUser: IUser | null;
+  setErrorModal: (error: boolean) => void;
+  setError: (error: string) => void;
+}
 
 const UserItem = ({
   user,
@@ -11,11 +27,14 @@ const UserItem = ({
   currentUser,
   setErrorModal,
   setError,
-}) => {
+}: IUserItemProps) => {
   const classes = styles();
 
   // function to change user role [S.P]
-  const handleManageClick = (event, user) => {
+  const handleManageClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    user: IUser
+  ) => {
     if (currentUser?.role !== "Admin") {
       setErrorModal(true);
       setError(
@@ -46,7 +65,10 @@ const UserItem = ({
           onClose={handleCloseMenu}
         >
           {["Manager", "User"].map((role) => (
-            <MenuItem key={role} onClick={() => handleRoleChange(role)}>
+            <MenuItem
+              key={role}
+              onClick={() => handleRoleChange(role as "Manager" | "User")}
+            >
               Make {role}
             </MenuItem>
           ))}

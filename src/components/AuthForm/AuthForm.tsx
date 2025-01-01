@@ -17,8 +17,20 @@ import { loginUser, registerUser } from "@/api/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
+import { IApiError } from "@/types";
 import * as yup from "yup";
 import styles from "./styles";
+
+interface IAuthFormProps {
+  isLogin: boolean;
+  toggleForm: () => void;
+}
+
+interface IFormData {
+  username: string;
+  password: string;
+  role?: "Admin" | "Manager" | "User";
+}
 
 const schema = yup.object().shape({
   username: yup
@@ -32,10 +44,10 @@ const schema = yup.object().shape({
     .matches(/[a-zA-Z]/, "Password can only contain Latin letters"),
 });
 
-const AuthForm = ({ isLogin, toggleForm }) => {
+const AuthForm = ({ isLogin, toggleForm }: IAuthFormProps) => {
   const navigate = useNavigate();
-  const [apiError, setApiError] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
+  const [apiError, setApiError] = useState<IApiError | null>(null);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const { login } = useContext(AuthContext);
   const classes = styles();
 
@@ -43,11 +55,11 @@ const AuthForm = ({ isLogin, toggleForm }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<IFormData>({
     resolver: yupResolver(schema),
   });
 
-  const handleAuthSubmit = async (formData) => {
+  const handleAuthSubmit = async (formData: IFormData) => {
     setApiError(null);
     try {
       //Send request to login or register [S.P]
@@ -58,7 +70,7 @@ const AuthForm = ({ isLogin, toggleForm }) => {
       //Save token and user to local storage and state in AuthContext [S.P]
       login(response.token, response.user);
       navigate("/dashboard");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Authentication failed", error);
       setApiError(error);
     }

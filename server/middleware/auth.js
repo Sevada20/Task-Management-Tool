@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const authenticate = (req, res, next) => {
   try {
     console.log("Auth Headers:", req.headers.authorization);
-
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {

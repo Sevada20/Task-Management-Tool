@@ -18,9 +18,8 @@ import {
   Dialog,
   DialogContent,
   DialogActions,
-  DialogTitle,
-  DialogContentText,
 } from "@mui/material";
+import { ITask, ITaskFormData, IUser } from "@/types";
 import AddIcon from "@mui/icons-material/Add";
 import TaskForm from "@/components/TaskForm/TaskForm";
 import Dashboard from "@/components/Dashboard/Dashboard";
@@ -30,14 +29,16 @@ import styles from "./styles";
 
 const DashboardPage = () => {
   const classes = styles();
-  const [users, setUsers] = useState([]);
-  const [tasks, setTasks] = useState([]);
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [taskError, setTaskError] = useState(null);
-  const [userError, setUserError] = useState(null);
-  const [openErrorModal, setOpenErrorModal] = useState(false);
-  const [openCreateTaskModal, setOpenCreateTaskModal] = useState(false);
-  const [openUpdateTaskModal, setOpenUpdateTaskModal] = useState(false);
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [tasks, setTasks] = useState<ITask[]>([]);
+  const [selectedTask, setSelectedTask] = useState<ITask | null>(null);
+  const [taskError, setTaskError] = useState<string | null>(null);
+  const [userError, setUserError] = useState<string | null>(null);
+  const [openErrorModal, setOpenErrorModal] = useState<boolean>(false);
+  const [openCreateTaskModal, setOpenCreateTaskModal] =
+    useState<boolean>(false);
+  const [openUpdateTaskModal, setOpenUpdateTaskModal] =
+    useState<boolean>(false);
 
   const { user, logout } = useContext(AuthContext);
 
@@ -66,7 +67,7 @@ const DashboardPage = () => {
         } else {
           setTasks(data);
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error("Fetch tasks error:", err);
         setTaskError(err.message || "Failed to fetch tasks");
         setOpenErrorModal(true);
@@ -92,7 +93,7 @@ const DashboardPage = () => {
         }
         const data = await getUsers();
         setUsers(data);
-      } catch (error) {
+      } catch (error: any) {
         console.error(error);
         setUserError(error.message || "Failed to fetch users");
         setOpenErrorModal(true);
@@ -102,39 +103,39 @@ const DashboardPage = () => {
   }, []);
 
   //handle function for button "Edit Task" in TaskItem [S.P]
-  const handleEditTask = (taskId) => {
+  const handleEditTask = (taskId: string) => {
     const task = tasks.find((task) => task._id === taskId);
-    if (user.role === "User") {
+    if (user?.role === "User") {
       setTaskError(
         "You do not have permission to update tasks. Only administrators and managers can perform this operation."
       );
       setOpenErrorModal(true);
-    } else if (task && (user.role === "Manager" || user.role === "Admin")) {
+    } else if (task && (user?.role === "Manager" || user?.role === "Admin")) {
       setOpenUpdateTaskModal(true);
       setSelectedTask(task);
     }
   };
 
   //async function for button "Update Task" in TaskUpdateForm [S.P]
-  const handleUpdateTask = async (taskId, updatedTask) => {
+  const handleUpdateTask = async (taskId: string, updatedTask: ITask) => {
     try {
       const updatedData = await updateTask(taskId, updatedTask);
-      setTasks((prevTasks) =>
+      setTasks((prevTasks: ITask[]) =>
         prevTasks.map((task) => (task._id === taskId ? updatedData : task))
       );
       setOpenUpdateTaskModal(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       setTaskError(error.message || "Failed to update task");
     }
   };
 
-  const handleCreateTask = async (taskData) => {
+  const handleCreateTask = async (taskData: ITaskFormData) => {
     try {
       const newTask = await createTask(taskData);
-      setTasks((prevTasks) => [...prevTasks, newTask]);
+      setTasks((prevTasks: ITask[]) => [...prevTasks, newTask]);
       setOpenCreateTaskModal(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       if (error.error === "Access denied") {
         setTaskError(
@@ -148,19 +149,19 @@ const DashboardPage = () => {
   };
 
   //async function change only status of task [S.P]
-  const handleUpdateTaskStatus = async (taskId, status) => {
+  const handleUpdateTaskStatus = async (taskId: string, status: string) => {
     try {
       const updatedTask = await updateTaskStatus(taskId, status);
-      setTasks((prevTasks) =>
+      setTasks((prevTasks: ITask[]) =>
         prevTasks.map((task) => (task._id === taskId ? updatedTask : task))
       );
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       setTaskError(error.message || "Failed to update task status");
     }
   };
 
-  const handleDeleteTask = async (taskId, userRole) => {
+  const handleDeleteTask = async (taskId: string, userRole: string) => {
     if (userRole !== "Admin") {
       setTaskError(
         "You do not have permission to delete this task. Only administrators can perform this operation."
@@ -172,7 +173,7 @@ const DashboardPage = () => {
     try {
       await deleteTask(taskId);
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       setTaskError(error.error || "Failed to delete task");
       setOpenErrorModal(true);
@@ -180,7 +181,7 @@ const DashboardPage = () => {
   };
 
   const handleShowCreateTaskModal = () => {
-    if (user.role === "Manager" || user.role === "Admin") {
+    if (user?.role === "Manager" || user?.role === "Admin") {
       setOpenCreateTaskModal(true);
     } else {
       setTaskError(
@@ -207,7 +208,6 @@ const DashboardPage = () => {
                     onClick={handleShowCreateTaskModal}
                     startIcon={<AddIcon />}
                     className={classes.createTaskButton}
-                    style={{ backgroundColor: "#1c98b0" }}
                   >
                     Create New Task
                   </Button>
