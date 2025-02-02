@@ -1,7 +1,7 @@
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles(
-  (theme) => ({
+  () => ({
     authContainer: {
       height: "100vh",
       maxWidth: "30vw",
