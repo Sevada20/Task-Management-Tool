@@ -7,8 +7,7 @@ interface IAuthProviderProps {
 
 export const AuthContext = createContext<IAuthContextType>({
   user: null,
-  //@ts-ignore
-  login: (token: string, userData: IUser) => {},
+  login: () => {},
   logout: () => {},
   isAuth: false,
 });
