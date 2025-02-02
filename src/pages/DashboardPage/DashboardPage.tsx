@@ -33,7 +33,6 @@ const DashboardPage = () => {
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [selectedTask, setSelectedTask] = useState<ITask | null>(null);
   const [taskError, setTaskError] = useState<string | null>(null);
-  const [userError, setUserError] = useState<string | null>(null);
   const [openErrorModal, setOpenErrorModal] = useState<boolean>(false);
   const [openCreateTaskModal, setOpenCreateTaskModal] =
     useState<boolean>(false);
@@ -95,7 +94,6 @@ const DashboardPage = () => {
         setUsers(data);
       } catch (error: any) {
         console.error(error);
-        setUserError(error.message || "Failed to fetch users");
         setOpenErrorModal(true);
       }
     };

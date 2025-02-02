@@ -1,6 +1,6 @@
 import { createUseStyles } from "react-jss";
 const useStyles = createUseStyles(
-  (theme) => ({
+  () => ({
     dashboardCard: {
       boxShadow: 3,
       borderRadius: "16px",
