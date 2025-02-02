@@ -8,10 +8,7 @@ import {
 } from "@/types";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-const API_URL =
-  process.env.NODE_ENV === "production"
-    ? "/api" // В продакшене API будет на том же домене
-    : "http://localhost:5000/api"; // Для разработки
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 //Create axios instance
 export const api = axios.create({
