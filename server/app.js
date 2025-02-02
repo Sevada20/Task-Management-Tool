@@ -1,10 +1,12 @@
-require("dotenv").config();
-const { authenticate } = require("./middleware/auth");
-const express = require("express");
-const cors = require("cors");
-const authRoutes = require("./routes/auth");
-const taskRoutes = require("./routes/tasks");
-const userRoutes = require("./routes/users");
+import dotenv from "dotenv";
+import express from "express";
+import cors from "cors";
+import { authenticate } from "./middleware/auth.js";
+import authRoutes from "./routes/auth.js";
+import taskRoutes from "./routes/tasks.js";
+import userRoutes from "./routes/users.js";
+
+dotenv.config();
 
 const app = express();
 
