@@ -1,6 +1,6 @@
-const { checkRole } = require("../middleware/auth");
-const express = require("express");
-const Task = require("../models/Task");
+import { checkRole } from "../middleware/auth.js";
+import express from "express";
+import Task from "../models/Task.js";
 
 const router = express.Router();
 
@@ -79,4 +79,4 @@ router.delete("/:id", checkRole(["Admin"]), async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
