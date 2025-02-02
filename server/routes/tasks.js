@@ -1,4 +1,4 @@
-const { checkRole } = require("middleware/auth");
+const { checkRole } = require("../middleware/auth");
 const express = require("express");
 const Task = require("../models/Task");
 

@@ -184,6 +184,12 @@ Users:
 
 - Username: Karen777
 - Password: karen777
+
+-Username: Erik777
+-Password: erik777
+
+-Username: Arman1997
+-Password arman1997
 ```
 
 ## Technologies Used
