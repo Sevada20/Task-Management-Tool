@@ -8,7 +8,7 @@ import {
 } from "@/types";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-const API_URL = "https://task-management-tool-server.vercel.app/api";
+const API_URL = `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`;
 
 //Create axios instance
 export const api = axios.create({
