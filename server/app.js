@@ -16,6 +16,7 @@ app.use(
   cors({
     origin: [
       "https://task-management-tool-git-main-sevada20s-projects.vercel.app",
+      "mongodb+srv://admin:1265789Sevo.@cluster0.dstygcr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
       "https://task-management-tool-khaki.vercel.app/api",
       "https://task-management-tool-beige-rho.vercel.app",
       "https://task-management-tool-server.vercel.app/api",
