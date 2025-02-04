@@ -8,7 +8,7 @@ import {
 } from "@/types";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-const API_URL = `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}`;
+const API_URL = "https://server-qblgku9ku-sevada20s-projects.vercel.app";
 
 //Create axios instance
 export const api = axios.create({
